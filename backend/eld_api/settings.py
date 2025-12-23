@@ -26,11 +26,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-ch3u%e&bw7hlgko6*_^ni
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS', 
-    default='localhost,127.0.0.1,0.0.0.0,*.vercel.app,*.now.sh', 
-    cast=Csv()
-)
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
