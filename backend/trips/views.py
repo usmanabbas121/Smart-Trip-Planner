@@ -11,6 +11,15 @@ from .services.hos_calculator import HOSCalculator
 from .services.log_generator import LogGenerator
 
 
+class HealthCheckView(APIView):
+    def get(self, request):
+        return Response({
+            "status": "ok",
+            "message": "Django backend is running",
+            "service": "ELD Trip Planner API"
+        })
+
+
 class CalculateTripView(APIView):
     def post(self, request):
         serializer = TripRequestSerializer(data=request.data)
