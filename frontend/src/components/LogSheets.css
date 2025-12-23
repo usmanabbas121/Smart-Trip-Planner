@@ -1,0 +1,389 @@
+.log-sheets {
+  margin-top: 30px;
+}
+
+.log-sheets h2 {
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.log-sheet {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border: 1px solid #000;
+  margin-bottom: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  page-break-after: always;
+  font-family: 'Inter', Arial, sans-serif;
+  border-radius: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.log-sheet:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.dot-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+.dot-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, #240b36, #8b0000, #c31432);
+}
+
+.dot-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #240b36, #8b0000, #c31432);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dot-subtitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #240b36, #8b0000, #c31432);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.log-header-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 30px;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.header-right {
+  flex: 1;
+}
+
+.header-instructions {
+  font-size: 0.75rem;
+  margin-bottom: 12px;
+  padding: 5px;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 47px;
+  align-items: flex-start;
+}
+
+.header-field-dot {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.header-field-dot label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #000;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.field-value {
+  flex: 1;
+  min-height: 20px;
+  border-bottom: 1px solid #000;
+  padding: 2px 5px;
+  font-size: 0.9rem;
+}
+
+.field-value.signature {
+  border-bottom: 1px solid #000;
+  min-height: 20px;
+}
+
+.certification-text {
+  font-size: 0.75rem;
+  font-style: italic;
+  margin: 3px 0 8px 0;
+  padding-left: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.from-field {
+  margin-top: 0;
+}
+
+.co-driver-field {
+  margin-top: 0;
+}
+
+.to-field {
+  margin-top: 0;
+}
+
+.total-hours-field {
+  margin-top: 0;
+}
+
+.certification-text {
+  margin-top: 12px;
+}
+
+.date-fields {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+  flex: 1;
+}
+
+.date-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #000;
+  padding: 2px 5px;
+  font-size: 0.85rem;
+}
+
+.date-label {
+  text-align: center;
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+}
+
+.date-value {
+  text-align: center;
+  min-height: 18px;
+}
+
+.date-value.date-day {
+  font-weight: 700;
+}
+
+.log-header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #333;
+}
+
+.header-row {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 20px;
+}
+
+.header-field {
+  flex: 1;
+}
+
+.header-field label {
+  font-weight: 600;
+  margin-right: 8px;
+  color: #555;
+}
+
+.header-field span {
+  color: #333;
+}
+
+.log-grid {
+  margin: 20px 0;
+  border: 1px solid #000;
+  padding: 8px;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.grid-header {
+  display: flex;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 3px;
+}
+
+.status-label {
+  width: 150px;
+  font-weight: 600;
+  padding: 5px;
+  font-size: 0.85rem;
+  text-align: left;
+  min-width: 150px;
+}
+
+.time-labels {
+  display: flex;
+  flex: 1;
+  font-size: 0.65rem;
+  border-left: 1px solid #000;
+  padding-left: 2px;
+}
+
+.time-label {
+  flex: 1;
+  text-align: center;
+  padding: 1px;
+  min-width: 0;
+  font-size: 0.6rem;
+}
+
+.time-label.hour-mark {
+  font-weight: 600;
+  border-right: 1px solid #000;
+}
+
+.time-label.quarter-mark {
+  font-size: 0.5rem;
+  color: #666;
+}
+
+.grid-row {
+  display: flex;
+  height: 30px;
+  margin-bottom: 3px;
+  border-bottom: 1px solid #ccc;
+}
+
+.grid-cell {
+  height: 100%;
+  border-right: 1px solid #ddd;
+  background-color: transparent;
+  min-width: 0;
+}
+
+.grid-cell.active {
+  background: linear-gradient(to right, #240b36, #c31432);
+}
+
+/* Hour markers - thicker border every 4 cells (1 hour) */
+.grid-cell:nth-child(4n) {
+  border-right: 1px solid #000;
+}
+
+.log-totals {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background: #ffa17f;
+  background: -webkit-linear-gradient(to right, #ffa17f, #00223e);
+  background: linear-gradient(to right, #ffa17f, #00223e);
+}
+
+.total-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.total-sum {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  padding-top: 8px;
+  border-top: 1px solid #000;
+  margin-top: 8px;
+}
+
+.log-remarks {
+  margin: 20px 0;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 15px;
+  min-height: 100px;
+  background: #ffa17f;
+  background: -webkit-linear-gradient(to right, #ffa17f, #00223e);
+  background: linear-gradient(to right, #ffa17f, #00223e);
+}
+
+.remarks-label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  padding-bottom: 5px;
+  color: #000000;
+}
+
+.remarks-content {
+  min-height: 80px;
+}
+
+.remark-item {
+  padding: 3px 0;
+  font-size: 0.85rem;
+  border-bottom: 1px dotted #ccc;
+  color: #000000;
+}
+
+.remark-item:last-child {
+  border-bottom: none;
+}
+
+.log-recap {
+  margin: 20px 0;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 15px;
+  min-height: 100px;
+  background: #ffa17f;
+  background: -webkit-linear-gradient(to right, #ffa17f, #00223e);
+  background: linear-gradient(to right, #ffa17f, #00223e);
+}
+
+.recap-label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  padding-bottom: 5px;
+  color: #000000;
+}
+
+.recap-content {
+  min-height: 80px;
+}
+
+.recap-item {
+  padding: 3px 0;
+  font-size: 0.85rem;
+  border-bottom: 1px dotted #ccc;
+  color: #000000;
+}
+
+.recap-item:last-child {
+  border-bottom: none;
+}
+
+@media print {
+  .log-sheet {
+    page-break-after: always;
+  }
+}
+
