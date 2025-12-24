@@ -199,7 +199,7 @@ class RouteService:
             return route["geometry"]["coordinates"]
         return []
     
-    def find_fuel_stops(self, route: Dict, interval_miles: float = 400.0) -> List[Dict]:
+    def find_fuel_stops(self, route: Dict, interval_miles: float = 1000.0) -> List[Dict]:
         fuel_stops = []
         if "geometry" not in route or "coordinates" not in route["geometry"]:
             return fuel_stops
