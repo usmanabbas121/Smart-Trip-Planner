@@ -94,8 +94,8 @@ class HOSCalculator:
             if window_remaining <= 0.01 or driving_available_in_window <= 0.01:
                 segments.append({
                     "time": current_time,
-                    "status": DutyStatus.OFF_DUTY.value,
-                    "description": "10-hour rest break",
+                    "status": DutyStatus.SLEEPER_BERTH.value,
+                    "description": "10-hour rest break (sleeper berth)",
                     "duration": self.MIN_10_HOUR_REST,
                     "location": None
                 })
