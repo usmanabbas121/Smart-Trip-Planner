@@ -74,7 +74,7 @@ const MapDisplay: React.FC<MapDisplayProps> = ({ route, timeline }) => {
   const routeCoords = route.geometry.map(coord => [coord[1], coord[0]] as [number, number]);
 
   const restStops = timeline.filter(event => 
-    event.status === 'off_duty' && event.description.includes('rest')
+    (event.status === 'off_duty' || event.status === 'sleeper_berth') && event.description.includes('rest')
   );
 
   const filteredFuelStops = route.fuel_stops;
@@ -109,7 +109,7 @@ const MapDisplay: React.FC<MapDisplayProps> = ({ route, timeline }) => {
       
       cumulativeTime += eventDuration;
 
-      if (event.status === 'off_duty' && event.description.includes('rest')) {
+      if ((event.status === 'off_duty' || event.status === 'sleeper_berth') && event.description.includes('rest')) {
         let remainingDistance = cumulativeDistance;
         let routeIndex = 0;
         let accumulatedRouteDistance = 0;
