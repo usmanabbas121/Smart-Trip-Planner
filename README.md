@@ -4,26 +4,21 @@ Full-stack application for calculating truck trip routes with HOS-compliant rest
 
 ## Tech Stack
 
-- **Backend**: Django 5.2 + Django REST Framework
-- **Frontend**: React 18 + TypeScript
-- **Map API**: OpenRouteService (free)
-- **Map Library**: Leaflet + React-Leaflet
+- Backend: Django 5.2 + Django REST Framework
+- Frontend: React 18 + TypeScript
+- Map API: OpenRouteService
+- Map Library: Leaflet + React-Leaflet
 
 ## Setup
 
 ### Backend
 
-1. **Get OpenRouteService API Key (Optional but Recommended)**
+1. Get OpenRouteService API Key (optional):
    - Visit https://openrouteservice.org/dev/#/signup
-   - Sign up for a free account (2,000 requests/day)
-   - Copy your API key
-   - Set it as an environment variable:
-     ```bash
-     export OPENROUTE_SERVICE_API_KEY="your-api-key-here"
-     ```
-   - Note: The app will work without an API key for limited testing, but you may hit rate limits.
+   - Sign up for a free account
+   - Set environment variable: `export OPENROUTE_SERVICE_API_KEY="your-api-key-here"`
 
-2. **Install and Run**
+2. Install and run:
    ```bash
    cd backend
    python3 -m venv venv
@@ -53,4 +48,3 @@ npm start
 - ELD log sheet generation matching DOT format
 - Interactive map visualization
 - Multiple log sheets for multi-day trips
-

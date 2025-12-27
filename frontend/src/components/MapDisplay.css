@@ -1,12 +1,17 @@
 .map-container {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
-  padding: 30px;
+  padding: 20px 20px 0 20px;
   border-radius: 16px;
   margin: 20px 0;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   border: 1px solid rgba(102, 126, 234, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  overflow: hidden;
+  position: relative;
 }
 
 .map-container:hover {
@@ -18,7 +23,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.map-wrapper {
+  flex: 1;
+  width: calc(100% + 40px);
+  margin: 0 -20px 0 -20px;
+  position: relative;
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+}
+
+.map-wrapper .leaflet-container {
+  height: 600px !important;
+  width: 100% !important;
+  border-radius: 0 0 16px 16px;
 }
 
 .map-container h2 {
@@ -58,31 +79,87 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.map-info {
+.map-info-cards {
   margin-top: 20px;
-  padding-top: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.map-info p {
-  margin: 0;
-  font-size: 1rem;
-  color: #ffffff;
-  padding: 10px 15px;
-  background: rgba(36, 11, 54, 0.6);
-  background: -webkit-linear-gradient(to right, rgba(36, 11, 54, 0.6), rgba(201, 20, 50, 0.6));
-  background: linear-gradient(to right, rgba(36, 11, 54, 0.6), rgba(201, 20, 50, 0.6));
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  flex: 1;
-  min-width: 200px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-.map-info p strong {
-  color: #ffffff;
+.info-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.info-card.distance .info-card-icon {
+  background: linear-gradient(135deg, #240b36 0%, #c31432 100%);
+}
+
+.info-card.fuel .info-card-icon {
+  background: linear-gradient(135deg, #f57c00 0%, #ff9800 100%);
+}
+
+.info-card.rest .info-card-icon {
+  background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+}
+
+.info-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-card-label {
+  font-size: 0.75rem;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #240b36 0%, #c31432 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.info-card-value small {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .map-info-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 .custom-marker {

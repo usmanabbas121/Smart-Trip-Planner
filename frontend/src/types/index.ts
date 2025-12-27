@@ -15,6 +15,14 @@ export interface TripRequest {
   timezone?: string;
 }
 
+export interface IntermediateCityOnRoute {
+  name: string;
+  distance_miles: number;
+  coordinates: [number, number];
+  type: string;
+  segment?: string;
+}
+
 export interface RouteData {
   distance_miles: number;
   geometry: number[][];
@@ -22,6 +30,7 @@ export interface RouteData {
   start_coords: [number, number];
   pickup_coords: [number, number];
   dropoff_coords: [number, number];
+  intermediate_cities?: IntermediateCityOnRoute[];
 }
 
 export interface FuelStop {
@@ -44,6 +53,13 @@ export interface Compliance {
   required_70_hour_hours: number;
   available_hours: number;
   exceeds_by: number;
+}
+
+export interface IntermediateCity {
+  name: string;
+  hours_into_day: number;
+  distance: number;
+  type?: 'pickup' | 'dropoff' | 'intermediate';
 }
 
 export interface LogSheet {
@@ -80,6 +96,7 @@ export interface LogSheet {
     available_tomorrow_70: number;
     total_last_5_days: number;
   };
+  intermediate_cities?: IntermediateCity[];
 }
 
 export interface TripResponse {

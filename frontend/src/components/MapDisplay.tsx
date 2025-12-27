@@ -185,11 +185,12 @@ const MapDisplay: React.FC<MapDisplayProps> = ({ route, timeline }) => {
           </div>
         </div>
       </div>
-      <MapContainer
-        center={[route.start_coords[0], route.start_coords[1]] as L.LatLngExpression}
-        zoom={6}
-        style={{ height: '600px', width: '100%' }}
-      >
+      <div className="map-wrapper">
+        <MapContainer
+          center={[route.start_coords[0], route.start_coords[1]] as L.LatLngExpression}
+          zoom={6}
+          style={{ height: '600px', width: '100%' }}
+        >
         <MapBounds route={route} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -296,22 +297,9 @@ const MapDisplay: React.FC<MapDisplayProps> = ({ route, timeline }) => {
             </Popup>
           </Marker>
         ))}
-      </MapContainer>
-      
-      <div className="map-info">
-        <p>
-          <FaRuler style={{ marginRight: '8px', color: '#e0e0e0' }} />
-          <strong>Total Distance:</strong> {route.distance_miles.toFixed(2)} miles
-        </p>
-        <p>
-          <FaGasPump style={{ marginRight: '8px', color: '#e0e0e0' }} />
-          <strong>Fuel Stops:</strong> {filteredFuelStops.length > 0 ? filteredFuelStops.length : route.fuel_stops.length}
-        </p>
-        <p>
-          <FaBed style={{ marginRight: '8px', color: '#e0e0e0' }} />
-          <strong>Rest Breaks:</strong> {restStops.length}
-        </p>
+        </MapContainer>
       </div>
+      
     </div>
   );
 };

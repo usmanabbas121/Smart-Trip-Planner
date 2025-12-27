@@ -60,7 +60,7 @@ const TripForm: React.FC<TripFormProps> = ({ onTripCalculated, onError, onLoadin
   const fillSampleData = () => {
     setFormData({
       current_location: 'Chicago, Illinois, USA',
-      pickup_location: 'Los Angeles, California, USA',
+      pickup_location: 'Indianapolis, Indiana, USA',
       dropoff_location: 'New York, New York, USA',
       current_cycle_used: 15.5,
       carrier_name: 'ABC Trucking Company',
@@ -95,16 +95,18 @@ const TripForm: React.FC<TripFormProps> = ({ onTripCalculated, onError, onLoadin
 
   return (
     <form className="trip-form" onSubmit={handleSubmit}>
-      <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-        <button 
-          type="button" 
-          onClick={fillSampleData}
-          className="sample-data-button"
-        >
-          <HiOutlineClipboardDocumentList style={{ color: '#ffffff' }} />
-          Fill Sample Data
-        </button>
-      </div>
+      {!isLoading && resetTrigger && (
+        <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+          <button 
+            type="button" 
+            onClick={fillSampleData}
+            className="sample-data-button"
+          >
+            <HiOutlineClipboardDocumentList style={{ color: '#ffffff' }} />
+            Fill Sample Data
+          </button>
+        </div>
+      )}
       <div className="form-section">
         <h2>
           <FaRoute style={{ marginRight: '8px', verticalAlign: 'middle', color: '#c31432' }} />

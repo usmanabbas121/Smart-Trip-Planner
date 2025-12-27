@@ -31,10 +31,19 @@ class CalculateTripView(APIView):
         route_service = RouteService()
         
         start_coords = route_service.geocode(data["current_location"])
-        time.sleep(1.2)
+        time.sleep(0.3)
         pickup_coords = route_service.geocode(data["pickup_location"])
-        time.sleep(1.2)
+        time.sleep(0.3)
         dropoff_coords = route_service.geocode(data["dropoff_location"])
+        
+        if start_coords and pickup_coords:
+            from geopy.distance import geodesic
+            distance = geodesic(start_coords, pickup_coords).miles
+            if distance < 0.1:  # Less than 0.1 miles apart
+                return Response(
+                    {"error": f"Pickup location is too close to current location (less than 0.1 miles). Please ensure pickup is a different location."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
         
         failed_locations = []
         if not start_coords:
@@ -65,6 +74,63 @@ class CalculateTripView(APIView):
         total_distance = route_service.calculate_distance(route)
         route_geometry = route_service.get_route_geometry(route)
         fuel_stops = route_service.find_fuel_stops(route)
+        
+        from geopy.distance import geodesic
+        route_coords = route_service.get_route_geometry(route)
+        
+        pickup_on_route_index = 0
+        min_distance_to_pickup = float('inf')
+        for i, coord in enumerate(route_coords):
+            dist = geodesic((coord[1], coord[0]), pickup_coords).miles
+            if dist < min_distance_to_pickup:
+                min_distance_to_pickup = dist
+                pickup_on_route_index = i
+        
+        start_to_pickup_distance = 0.0
+        for i in range(pickup_on_route_index):
+            if i + 1 < len(route_coords):
+                coord1 = route_coords[i]
+                coord2 = route_coords[i + 1]
+                start_to_pickup_distance += geodesic((coord1[1], coord1[0]), (coord2[1], coord2[0])).miles
+        
+        route_intermediate_cities = route_service.get_intermediate_cities_with_distance(route, interval_miles=100.0)
+        
+        for city in route_intermediate_cities:
+            if city["distance_miles"] < start_to_pickup_distance:
+                city["segment"] = "start_to_pickup"
+            else:
+                city["segment"] = "pickup_to_dropoff"
+        
+        intermediate_areas = route_service.get_intermediate_cities_with_distance(route, interval_miles=50.0)
+        
+        start_name = data["current_location"].split(',')[0]
+        pickup_name = data["pickup_location"].split(',')[0]
+        dropoff_name = data["dropoff_location"].split(',')[0]
+        
+        cities_before_pickup = [area for area in intermediate_areas if area["distance_miles"] < start_to_pickup_distance]
+        cities_after_pickup = [area for area in intermediate_areas if area["distance_miles"] >= start_to_pickup_distance]
+        
+        intermediate_cities = [
+            {"name": start_name, "distance_miles": 0.0, "type": "start"}
+        ] + [dict(area, type="intermediate") for area in cities_before_pickup] + [
+            {"name": pickup_name, "distance_miles": round(start_to_pickup_distance, 1), "type": "pickup"}
+        ] + [dict(area, type="intermediate") for area in cities_after_pickup] + [
+            {"name": dropoff_name, "distance_miles": round(total_distance, 1), "type": "dropoff"}
+        ]
+        
+        if len(intermediate_areas) < 10 and total_distance > 300:
+            intermediate_areas_dense = route_service.get_intermediate_cities_with_distance(route, interval_miles=30.0)
+            if len(intermediate_areas_dense) > len(intermediate_areas):
+                intermediate_areas = intermediate_areas_dense
+                cities_before_pickup = [area for area in intermediate_areas if area["distance_miles"] < start_to_pickup_distance]
+                cities_after_pickup = [area for area in intermediate_areas if area["distance_miles"] >= start_to_pickup_distance]
+                intermediate_cities = [
+                    {"name": start_name, "distance_miles": 0.0, "type": "start"}
+                ] + [dict(area, type="intermediate") for area in cities_before_pickup] + [
+                    {"name": pickup_name, "distance_miles": round(start_to_pickup_distance, 1), "type": "pickup"}
+                ] + [dict(area, type="intermediate") for area in cities_after_pickup] + [
+                    {"name": dropoff_name, "distance_miles": round(total_distance, 1), "type": "dropoff"}
+                ]
         
         timezone_str = data.get("timezone", "UTC")
         try:
@@ -108,7 +174,8 @@ class CalculateTripView(APIView):
             start_time=start_time,
             total_miles=total_distance,
             carrier_info=carrier_info,
-            vehicle_info=vehicle_info
+            vehicle_info=vehicle_info,
+            intermediate_cities=intermediate_cities
         )
         
         return Response({
@@ -118,7 +185,8 @@ class CalculateTripView(APIView):
                 "fuel_stops": fuel_stops,
                 "start_coords": start_coords,
                 "pickup_coords": pickup_coords,
-                "dropoff_coords": dropoff_coords
+                "dropoff_coords": dropoff_coords,
+                "intermediate_cities": route_intermediate_cities
             },
             "timeline": [
                 {

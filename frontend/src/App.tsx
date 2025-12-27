@@ -3,7 +3,7 @@ import TripForm from './components/TripForm';
 import MapDisplay from './components/MapDisplay';
 import LogSheets from './components/LogSheets';
 import { TripResponse } from './types';
-import { FaRoute, FaExclamationTriangle, FaCheckCircle, FaExclamationCircle, FaRuler, FaClock, FaShieldAlt } from 'react-icons/fa';
+import { FaRoute, FaExclamationTriangle, FaCheckCircle, FaExclamationCircle, FaRuler, FaClock, FaShieldAlt, FaGasPump, FaBed } from 'react-icons/fa';
 import './App.css';
 
 function App() {
@@ -78,7 +78,7 @@ function App() {
           onLoading={handleLoading}
           resetTrigger={tripData === null}
         />
-        {error && (
+        {error && !loading && (
           <div className="error">
             <FaExclamationTriangle style={{ marginRight: '8px', color: '#ffffff' }} />
             {error}
@@ -87,58 +87,78 @@ function App() {
         {tripData && (
           <div ref={resultsRef}>
             <MapDisplay route={tripData.route} timeline={tripData.timeline} />
-            <div className="summary">
-              <h2>
-                <FaRoute style={{ marginRight: '8px', verticalAlign: 'middle', color: '#c31432' }} />
-                Trip Summary
-              </h2>
-              <p>
-                <FaRuler style={{ marginRight: '8px', color: '#c31432' }} />
-                Total Distance: {tripData.route.distance_miles.toFixed(2)} miles
-              </p>
-              <p>
-                <FaClock style={{ marginRight: '8px', color: '#c31432' }} />
-                Total Driving Hours: {tripData.summary.total_driving_hours.toFixed(2)}
-              </p>
-              <p>
-                <FaClock style={{ marginRight: '8px', color: '#c31432' }} />
-                Total On-Duty Hours: {tripData.summary.total_on_duty_hours.toFixed(2)}
-              </p>
-              <p>
-                <FaShieldAlt style={{ marginRight: '8px', color: tripData.compliance.compliant ? '#4CAF50' : '#c31432' }} />
-                Compliance: {tripData.compliance.compliant ? (
-                  <span style={{ 
-                    color: '#4CAF50', 
-                    fontWeight: '600',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}>
-                    <FaCheckCircle style={{ verticalAlign: 'middle' }} /> Compliant
-                  </span>
-                ) : (
-                  <span style={{ 
-                    color: '#c31432', 
-                    fontWeight: '500',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '2px',
-                    padding: '1px 4px 1px 8px',
-                    backgroundColor: 'rgba(195, 20, 50, 0.1)',
-                    borderRadius: '3px',
-                    border: '1px solid rgba(195, 20, 50, 0.2)',
-                    fontSize: '0.75rem',
-                    marginLeft: '8px'
-                  }}>
-                    <FaExclamationCircle style={{ verticalAlign: 'middle', fontSize: '0.7rem' }} /> Non-Compliant
-                  </span>
-                )}
-              </p>
+            <div className="summary-modern">
+              <div className="summary-header">
+                <FaRoute className="summary-header-icon" />
+                <span>Trip Summary</span>
+              </div>
+              <div className="summary-cards">
+                <div className="summary-card">
+                  <div className="card-icon distance">
+                    <FaRuler />
+                  </div>
+                  <div className="card-content">
+                    <span className="card-label">Total Distance</span>
+                    <span className="card-value">{tripData.route.distance_miles.toFixed(2)} <small>miles</small></span>
+                  </div>
+                </div>
+                <div className="summary-card">
+                  <div className="card-icon driving">
+                    <FaClock />
+                  </div>
+                  <div className="card-content">
+                    <span className="card-label">Driving Hours</span>
+                    <span className="card-value">{tripData.summary.total_driving_hours.toFixed(2)} <small>hrs</small></span>
+                  </div>
+                </div>
+                <div className="summary-card">
+                  <div className="card-icon onduty">
+                    <FaClock />
+                  </div>
+                  <div className="card-content">
+                    <span className="card-label">On-Duty Hours</span>
+                    <span className="card-value">{tripData.summary.total_on_duty_hours.toFixed(2)} <small>hrs</small></span>
+                  </div>
+                </div>
+                <div className="summary-card">
+                  <div className="card-icon fuel">
+                    <FaGasPump />
+                  </div>
+                  <div className="card-content">
+                    <span className="card-label">Fuel Stops</span>
+                    <span className="card-value">{tripData.route.fuel_stops.length}</span>
+                  </div>
+                </div>
+                <div className="summary-card">
+                  <div className="card-icon rest">
+                    <FaBed />
+                  </div>
+                  <div className="card-content">
+                    <span className="card-label">Rest Breaks</span>
+                    <span className="card-value">{tripData.timeline.filter(e => e.status === 'sleeper_berth').length}</span>
+                  </div>
+                </div>
+                <div className={`summary-card compliance ${tripData.compliance.compliant ? 'compliant' : 'non-compliant'}`}>
+                  <div className={`card-icon ${tripData.compliance.compliant ? 'compliant' : 'non-compliant'}`}>
+                    <FaShieldAlt />
+                  </div>
+                  <div className="card-content">
+                    <span className="card-label">Compliance</span>
+                    <span className="card-value status">
+                      {tripData.compliance.compliant ? (
+                        <><FaCheckCircle /> Compliant</>
+                      ) : (
+                        <><FaExclamationCircle /> Non-Compliant</>
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
               {!tripData.compliance.compliant && (
-                <p className="error">
-                  <FaExclamationTriangle style={{ marginRight: '8px', color: '#ffffff' }} />
-                  Exceeds 70-hour limit by {tripData.compliance.exceeds_by.toFixed(2)} hours
-                </p>
+                <div className="compliance-warning">
+                  <FaExclamationTriangle />
+                  <span>Exceeds 70-hour limit by {tripData.compliance.exceeds_by.toFixed(2)} hours</span>
+                </div>
               )}
             </div>
             <LogSheets logSheets={tripData.log_sheets} />
